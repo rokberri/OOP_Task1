@@ -2,13 +2,17 @@ package RangeSet;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class RangeMap<T extends Comparable<T>> implements RangeMapInterface {
+public class RangeMap<T extends Comparable<T>> implements RangeMapInterface<T> {
     private final HashMap<Range<T>, String> rangeMap = new HashMap<>();
 
+    protected Set<Map.Entry<Range<T>, String>> getEntryKeySet(){
+        return rangeMap.entrySet();
+    }
 
     @Override
-    public int add(Range range, String value) {
+    public int add(Range<T> range, String value) {
         if(rangeMap.isEmpty()){
             rangeMap.put(range,value);
             return 0;
@@ -46,13 +50,5 @@ public class RangeMap<T extends Comparable<T>> implements RangeMapInterface {
     @Override
     public int getSize() {
         return rangeMap.size();
-    }
-
-    @Override
-    public void printRanges() {
-        for (Map.Entry<Range<T>, String> entry : rangeMap.entrySet()) {
-            entry.getKey().printRange();
-            System.out.println("--> "+entry.getValue());
-        }
     }
 }

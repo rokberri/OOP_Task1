@@ -9,7 +9,6 @@ public interface RangeSetInterface<T extends Comparable<T>> {
 
     public int getSize();
 
-    public void printRanges();
-
+    public Range<T> findElement(Range<T> range);
 
 }
