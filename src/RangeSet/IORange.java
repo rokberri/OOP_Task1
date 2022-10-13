@@ -59,6 +59,7 @@ public class IORange<T extends Comparable<T>> {
 
         System.out.println("\nContains Range [7..9]: ");
         System.out.println(rangeSet.contains(Range.closedOpen(7,9)));
+        System.out.println();
 
         System.out.println("Remove Range [1..5): ");
         rangeSet.remove(Range.closedOpen(1,5));
@@ -83,6 +84,7 @@ public class IORange<T extends Comparable<T>> {
         System.out.println("Remove element with value 2: ");
         rangeMap.remove(2);
         printerMap.printMap(rangeMap);
+        System.out.println();
 
         System.out.println("\nGet element by value 3: ");
         printerMap.printRange(rangeMap.getKey(3));
