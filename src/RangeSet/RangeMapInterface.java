@@ -1,12 +1,19 @@
 package RangeSet;
 
-public interface RangeMapInterface<T extends Comparable<T>>{
 
-    public int add(Range<T> range,String value);
+import java.util.Map;
 
-    public int remove(String value);
+public interface RangeMapInterface<T extends Comparable<T>, C>{
 
-//    public String get(T value);
+    public Map<Range<T>,C> getMap();
+
+
+    public Range<T> getKey(C value);
+    public void add(Range<T> range, C value);
+
+    public void remove(C value);
+
+    public C getValue(Range<T> value);
 
     public int getSize();
 

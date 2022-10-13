@@ -25,17 +25,54 @@ public class Range<T extends Comparable<T>> {
         return lowBound;
     }
 
-    public Range(T lowBound, T highBound, boolean isClosedL, boolean isClosedH) {
-        if (lowBound.compareTo(highBound)<0) {
+
+    public static <T extends Comparable<T>> Range<T> closed(T lowBound, T highBound){
+        try {
+            return new Range<T>(lowBound, highBound,true, true);
+        } catch (Exceptions.InvalidArgsException e) {
+            e.catchEx();
+        }
+        return null;
+    }
+
+    public static <T extends Comparable<T>> Range<T> open(T lowBound, T highBound){
+        try {
+            return new Range<T>(lowBound, highBound,false, false);
+        } catch (Exceptions.InvalidArgsException e) {
+            e.catchEx();
+        }
+        return null;
+    }
+
+    public static <T extends Comparable<T>> Range<T> closedOpen(T lowBound, T highBound){
+        try {
+            return new Range<T>(lowBound, highBound,true, false);
+        } catch (Exceptions.InvalidArgsException e) {
+            e.catchEx();
+        }
+        return null;
+    }
+
+    public static <T extends Comparable<T>> Range<T> openClosed(T lowBound, T highBound){
+        try {
+            return new Range<T>(lowBound, highBound,false, true);
+        } catch (Exceptions.InvalidArgsException e) {
+            e.catchEx();
+        }
+        return null;
+    }
+
+    public Range(T lowBound, T highBound, boolean isClosedL, boolean isClosedH) throws Exceptions.InvalidArgsException {
+        if (lowBound.compareTo(highBound) < 0) {
             this.highBound = highBound;
             this.lowBound = lowBound;
             this.isClosedH = isClosedH;
             this.isClosedL = isClosedL;
         }else{
-            System.out.println("ERROR");
+            throw new Exceptions.InvalidArgsException("Invalid args");
         }
     }
-    private boolean higherThenLowBound(T num) {
+    private boolean isHigherThenLowBound(T num) {
         if (this.isClosedL) {
             if(this.lowBound.compareTo(num)<=0){
                 return true;
@@ -47,7 +84,7 @@ public class Range<T extends Comparable<T>> {
         }
         return false;
     }
-    private boolean lowerThenHighBound( T num){
+    private boolean isLowerThenHighBound(T num){
         if(this.isClosedH){
             if(this.highBound.compareTo(num)>=0){
                 return true;
@@ -59,18 +96,18 @@ public class Range<T extends Comparable<T>> {
         }
         return false;
     }
-    public boolean numInRange(T num){
-        return higherThenLowBound(num) && this.lowerThenHighBound(num);
+    public boolean isNumInRange(T num){
+        return isHigherThenLowBound(num) && this.isLowerThenHighBound(num);
     }
-    public boolean rangeInRange(Range<T> range){
-        return range.higherThenLowBound(this.lowBound) && range.lowerThenHighBound(this.highBound);
+    public boolean isRangeInRange(Range<T> range){
+        return range.isHigherThenLowBound(this.lowBound) && range.isLowerThenHighBound(this.highBound);
     }
 
     public boolean canJoinRanges(Range<T> range2){
-        if(this.rangeInRange(range2)){
+        if(this.isRangeInRange(range2)){
             return true;
         }else {
-            if(this.numInRange(range2.lowBound) || this.numInRange( range2.highBound)){
+            if(this.isNumInRange(range2.lowBound) || this.isNumInRange( range2.highBound)){
                 return true;
             }
         }
@@ -78,19 +115,31 @@ public class Range<T extends Comparable<T>> {
     }
 
     public Range<T> joinRanges( Range<T> range2){
-        if(this.rangeInRange(range2)) {
+        if(this.isRangeInRange(range2)) {
             return range2;
         }
-        if(range2.rangeInRange(this)){
+        if(range2.isRangeInRange(this)){
             return this;
         }
-        if(this.numInRange(range2.lowBound)){
-            return new Range<T>(this.lowBound, range2.highBound, this.isClosedL,range2.isClosedH);
+        if(this.isNumInRange(range2.lowBound) || range2.isNumInRange(this.highBound)){
+            try {
+                return new Range<T>(this.lowBound, range2.highBound, this.isClosedL,range2.isClosedH);
+            } catch (Exceptions.InvalidArgsException e) {
+                e.catchEx();
+            }
         }
-        if(range2.numInRange(this.lowBound)){
-            return new Range<T>(range2.lowBound, this.highBound, range2.isClosedL,this.isClosedH);
+        if(range2.isNumInRange(this.lowBound) || this.isNumInRange(range2.highBound)){
+            try {
+                return new Range<T>(range2.lowBound, this.highBound, range2.isClosedL,this.isClosedH);
+            } catch (Exceptions.InvalidArgsException e) {
+                e.catchEx();
+            }
         }
-        return new Range(0,1,false,false);
+        try {
+            return new Range(0,1,false,false);//??????????????????????????????????????????
+        } catch (Exceptions.InvalidArgsException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

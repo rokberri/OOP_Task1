@@ -1,14 +1,14 @@
 package RangeSet;
 
 public interface RangeSetInterface<T extends Comparable<T>> {
-    public int add(Range<T> range);
+    public void add(Range<T> range);
 
-    public int remove(int index);
+    public void remove(Range<T> range);
 
     public Range<T> getEl(int index);
 
     public int getSize();
 
-    public Range<T> findElement(Range<T> range);
+    public boolean contains(Range<T> range);
 
 }
