@@ -1,6 +1,9 @@
 package RangeSet;
 
 
+import java.util.Objects;
+
+
 public class Range<T extends Comparable<T>> {
     private T highBound;
     private T lowBound;
@@ -29,8 +32,8 @@ public class Range<T extends Comparable<T>> {
     public static <T extends Comparable<T>> Range<T> closed(T lowBound, T highBound){
         try {
             return new Range<T>(lowBound, highBound,true, true);
-        } catch (Exceptions.InvalidArgsException e) {
-            e.catchEx();
+        } catch (InvalidArgsException e) {
+            e.catchEX();
         }
         return null;
     }
@@ -38,8 +41,8 @@ public class Range<T extends Comparable<T>> {
     public static <T extends Comparable<T>> Range<T> open(T lowBound, T highBound){
         try {
             return new Range<T>(lowBound, highBound,false, false);
-        } catch (Exceptions.InvalidArgsException e) {
-            e.catchEx();
+        } catch (InvalidArgsException e) {
+            e.catchEX();
         }
         return null;
     }
@@ -47,8 +50,8 @@ public class Range<T extends Comparable<T>> {
     public static <T extends Comparable<T>> Range<T> closedOpen(T lowBound, T highBound){
         try {
             return new Range<T>(lowBound, highBound,true, false);
-        } catch (Exceptions.InvalidArgsException e) {
-            e.catchEx();
+        } catch (InvalidArgsException e) {
+            e.catchEX();
         }
         return null;
     }
@@ -56,20 +59,20 @@ public class Range<T extends Comparable<T>> {
     public static <T extends Comparable<T>> Range<T> openClosed(T lowBound, T highBound){
         try {
             return new Range<T>(lowBound, highBound,false, true);
-        } catch (Exceptions.InvalidArgsException e) {
-            e.catchEx();
+        } catch (InvalidArgsException e) {
+            e.catchEX();
         }
         return null;
     }
 
-    public Range(T lowBound, T highBound, boolean isClosedL, boolean isClosedH) throws Exceptions.InvalidArgsException {
+    public Range(T lowBound, T highBound, boolean isClosedL, boolean isClosedH) throws InvalidArgsException {
         if (lowBound.compareTo(highBound) < 0) {
             this.highBound = highBound;
             this.lowBound = lowBound;
             this.isClosedH = isClosedH;
             this.isClosedL = isClosedL;
         }else{
-            throw new Exceptions.InvalidArgsException("Invalid args");
+            throw new InvalidArgsException("Invalid args");
         }
     }
     private boolean isHigherThenLowBound(T num) {
@@ -124,31 +127,44 @@ public class Range<T extends Comparable<T>> {
         if(this.isNumInRange(range2.lowBound) || range2.isNumInRange(this.highBound)){
             try {
                 return new Range<T>(this.lowBound, range2.highBound, this.isClosedL,range2.isClosedH);
-            } catch (Exceptions.InvalidArgsException e) {
-                e.catchEx();
+            } catch (InvalidArgsException e) {
+                e.catchEX();
             }
         }
         if(range2.isNumInRange(this.lowBound) || this.isNumInRange(range2.highBound)){
             try {
                 return new Range<T>(range2.lowBound, this.highBound, range2.isClosedL,this.isClosedH);
-            } catch (Exceptions.InvalidArgsException e) {
-                e.catchEx();
+            } catch (InvalidArgsException e) {
+                throw new RuntimeException(e);
             }
         }
         try {
             return new Range(0,1,false,false);//??????????????????????????????????????????
-        } catch (Exceptions.InvalidArgsException e) {
+        } catch (InvalidArgsException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    public int compare(Range<T> o) {
+    public boolean compare(Range<T> o) {
         if(lowBound==o.lowBound && highBound==o.highBound){
             if(isClosedL==o.isClosedL && isClosedH==o.isClosedH){
-                return 0;
+                return true;
             }
         }
-        return -1;
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Range<?> range = (Range<?>) o;
+        return isClosedH == range.isClosedH && isClosedL == range.isClosedL && Objects.equals(highBound, range.highBound) && Objects.equals(lowBound, range.lowBound);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(highBound, lowBound, isClosedH, isClosedL);
     }
 }

@@ -2,6 +2,7 @@ package RangeSet;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
@@ -24,15 +25,20 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
     }
     public void remove(Range<T> range){
         for (int index=0;index< rangeSet.size();index++){
-            if(rangeSet.get(index).compare(range)==0){
+            if(rangeSet.get(index).compare(range)){
                 rangeSet.remove(index);
                 break;
             }
         }
     }
 
-    public Range<T> getEl(int index){
-        return rangeSet.get(index);
+    public Range<T> getEl(Range<T> range){
+        for(Range<T> item : rangeSet){
+            if(item.equals(range)){
+                return item;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -65,12 +71,29 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
     public boolean contains(Range<T> range){
         int position = -1;
         for(int el=0; el<rangeSet.size(); el++){
-            if(range.compare(rangeSet.get(el))==0){
+            if(range.compare(rangeSet.get(el))){
                 position=el;
             }
         }
         return position != -1;
     }
-
-
+    public String toString(){
+        StringBuilder rez = new StringBuilder();
+        for(Range<T> item : rangeSet){
+            if(item.isClosedL()){
+                rez.append('[');
+            }else{
+                rez.append('(');
+            }
+            rez.append(item.getLowBound());
+            rez.append("..");
+            rez.append(item.getHighBound());
+            if(item.isClosedH()){
+                rez.append(']');
+            }else{
+                rez.append(')');
+            }
+        }
+        return rez.toString();
+    }
 }

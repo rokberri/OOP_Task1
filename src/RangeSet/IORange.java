@@ -1,5 +1,6 @@
 package RangeSet;
 
+import java.util.Iterator;
 import java.util.Map;
 
 public class IORange<T extends Comparable<T>> {
@@ -22,14 +23,12 @@ public class IORange<T extends Comparable<T>> {
     }
 
     public void printSet(RangeSetInterface<T> rangeSet){
-        for(int el=0; el<rangeSet.getSize(); el++){
-            printRange(rangeSet.getEl(el));
-        }
+        System.out.print(rangeSet.toString());
     }
 
 
     public <A extends Comparable<T>,C> void printMap(RangeMapInterface<T,C> rangeMap) {
-        for (Map.Entry<Range<T>, C> entry : rangeMap.getMap().entrySet()) {
+        for (Map.Entry<Range<T>, C> entry : rangeMap.getEntryKeySet()) {
             printRange(entry.getKey());
             System.out.println("--> "+entry.getValue());
         }
@@ -71,13 +70,12 @@ public class IORange<T extends Comparable<T>> {
         RangeMapInterface<String,Integer> rangeMap = new  RangeMap<String, Integer>();
         IORange<String> printerMap = new IORange<String>();
 
-
-
         System.out.println("\n---RangeMap---\n");
 
         rangeMap.add(Range.closed("A","C"),1);
         rangeMap.add(Range.closed("D","F"),2);
         rangeMap.add(Range.closed("G","I"),3);
+        rangeMap.add(Range.closed("B","F"),15);
         printerMap.printMap(rangeMap);
         System.out.println();
 
@@ -86,6 +84,10 @@ public class IORange<T extends Comparable<T>> {
         printerMap.printMap(rangeMap);
         System.out.println();
 
+        System.out.println("Which value is I: ");
+        System.out.println(rangeMap.getElement("I"));
+        System.out.println();
+        
         System.out.println("\nGet element by value 3: ");
         printerMap.printRange(rangeMap.getKey(3));
         System.out.println();

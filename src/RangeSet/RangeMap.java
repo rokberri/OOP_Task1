@@ -7,12 +7,8 @@ import java.util.Set;
 public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T, C> {
     private Map<Range<T>, C> rangeMap = new HashMap<>();
 
-    protected Set<Map.Entry<Range<T>, C>> getEntryKeySet(){
+    public Set<Map.Entry<Range<T>, C>> getEntryKeySet(){
         return rangeMap.entrySet();
-    }
-
-    public Map<Range<T>,C> getMap(){
-        return rangeMap;
     }
 
     @Override
@@ -26,12 +22,30 @@ public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T
         return curVal;
     }
 
+    public C getElement(T value){
+        for (Map.Entry<Range<T>, C> entry : rangeMap.entrySet()){
+            if(entry.getKey().isNumInRange(value)){
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     @Override
     public void add(Range<T> range, C value) {
         if(rangeMap.isEmpty()){
             rangeMap.put(range,value);
         }else{
-            rangeMap.put(range,value);
+            boolean hasTheSame = false;
+            for (Map.Entry<Range<T>, C> entry : rangeMap.entrySet()){
+                if(entry.getKey().isNumInRange(range.getLowBound()) || entry.getKey().isNumInRange(range.getHighBound())){
+                    hasTheSame = true;
+                }
+            }
+            if(!hasTheSame){
+                rangeMap.put(range, value);
+            }
+
         }
     }
 
@@ -49,7 +63,7 @@ public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T
     @Override
     public C getValue(Range<T> index) {
         for (Map.Entry<Range<T>, C> entry : rangeMap.entrySet()){
-            if(entry.getKey().compare(index) == 0){
+            if(entry.getKey().compare(index)){
                 return entry.getValue();
             }
         }
