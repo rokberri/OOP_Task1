@@ -13,8 +13,7 @@ public interface RangeMapInterface<T extends Comparable<T>, C>{
     public void remove(C value);
 
     public C getElement(T value);
-
-    public C getValue(Range<T> value);
+    public C getElement(Range<T> range);
 
     public int getSize();
 

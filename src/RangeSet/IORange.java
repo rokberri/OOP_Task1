@@ -93,7 +93,7 @@ public class IORange<T extends Comparable<T>> {
         System.out.println();
 
         System.out.println("\nGet element by key [\"G\"..\"I\"]: ");
-        System.out.println(rangeMap.getValue(Range.closed("G","I")));
+        System.out.println(rangeMap.getElement(Range.closed("G","I")));
 
     }
 }

@@ -32,6 +32,16 @@ public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T
     }
 
     @Override
+    public C getElement(Range<T> range) {
+        for (Map.Entry<Range<T>, C> entry : rangeMap.entrySet()){
+            if(entry.getKey().compare(range)){
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void add(Range<T> range, C value) {
         if(rangeMap.isEmpty()){
             rangeMap.put(range,value);
@@ -58,16 +68,6 @@ public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T
                 break;
             }
         }
-    }
-
-    @Override
-    public C getValue(Range<T> index) {
-        for (Map.Entry<Range<T>, C> entry : rangeMap.entrySet()){
-            if(entry.getKey().compare(index)){
-                return entry.getValue();
-            }
-        }
-        return null;
     }
 
     @Override
