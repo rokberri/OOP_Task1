@@ -71,6 +71,17 @@ public class RangeMap<T extends Comparable<T>, C> implements RangeMapInterface<T
     }
 
     @Override
+    public void remove(T value) {
+        Set<Map.Entry<Range<T>, C>> map = rangeMap.entrySet();
+        for (Map.Entry<Range<T>, C> entry : map){
+            if(entry.getKey().isNumInRange(value)){
+                rangeMap.remove(entry.getKey());
+                break;
+            }
+        }
+    }
+
+    @Override
     public int getSize() {
         return rangeMap.size();
     }

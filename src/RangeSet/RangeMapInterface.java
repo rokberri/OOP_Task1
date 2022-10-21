@@ -11,6 +11,9 @@ public interface RangeMapInterface<T extends Comparable<T>, C>{
     public void add(Range<T> range, C value);
 
     public void remove(C value);
+    public void remove(T value);
+    private boolean containsPoint(T point);
+
 
     public C getElement(T value);
     public C getElement(Range<T> range);

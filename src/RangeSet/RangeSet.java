@@ -32,14 +32,6 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
         }
     }
 
-    public Range<T> getEl(Range<T> range){
-        for(Range<T> item : rangeSet){
-            if(item.equals(range)){
-                return item;
-            }
-        }
-        return null;
-    }
 
     @Override
     public void add(Range<T> range) {
@@ -68,14 +60,19 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
         return rangeSet.size();
     }
 
-    public boolean contains(Range<T> range){
-        int position = -1;
-        for(int el=0; el<rangeSet.size(); el++){
-            if(range.compare(rangeSet.get(el))){
-                position=el;
+    @Override
+    private boolean containsPoint(T point){
+        for(Range<T> item : rangeSet){
+            if(item.isNumInRange(point)){
+                return true;
             }
         }
-        return position != -1;
+        return false;
+    }
+    public boolean contains(Range<T> range){
+        int exsist = 0;
+        if(rangeSet)
+        return exsist==2;
     }
     public String toString(){
         StringBuilder rez = new StringBuilder();

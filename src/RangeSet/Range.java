@@ -64,6 +64,14 @@ public class Range<T extends Comparable<T>> {
         }
         return null;
     }
+    public static <T extends Comparable<T>> Range<T> point(T bound){
+        try {
+            return new Range<T>(bound);
+        } catch (InvalidArgsException e) {
+            e.catchEX();
+        }
+        return null;
+    }
 
     public Range(T lowBound, T highBound, boolean isClosedL, boolean isClosedH) throws InvalidArgsException {
         if (lowBound.compareTo(highBound) < 0) {
@@ -74,6 +82,12 @@ public class Range<T extends Comparable<T>> {
         }else{
             throw new InvalidArgsException("Invalid args");
         }
+    }
+    public Range(T bound) throws InvalidArgsException {
+        this.highBound = bound;
+        this.lowBound = bound;
+        this.isClosedH = true;
+        this.isClosedL = true;
     }
     private boolean isHigherThenLowBound(T num) {
         if (this.isClosedL) {

@@ -60,9 +60,14 @@ public class IORange<T extends Comparable<T>> {
         System.out.println(rangeSet.contains(Range.closedOpen(7,9)));
         System.out.println();
 
+        System.out.println("\nContains Range 18: ");
+        System.out.println(rangeSet.contains(Range.point(18)));
+        System.out.println();
+
         System.out.println("Remove Range [1..5): ");
         rangeSet.remove(Range.closedOpen(1,5));
         printerSet.printSet(rangeSet);
+
         System.out.println("\n##########################################################################################");
 
 //-------------------------------------------------------------------------------------------------------------------------------------
