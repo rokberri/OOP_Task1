@@ -60,11 +60,6 @@ public class IORange<T extends Comparable<T>> {
         System.out.println(rangeSet.contains(Range.closedOpen(1,5)));
 
 
-//        System.out.println("EBANAYA HERNYA");
-//        Range<Integer> r1 = Range.closedOpen(1,5);
-//        Range<Integer> r2 = Range.closedOpen(1,5);
-//        System.out.println(r2.isRangeInRange(r1));
-
         System.out.println("\nContains Range [17..18): ");
         System.out.println(rangeSet.contains(Range.closedOpen(17,18)));
 
