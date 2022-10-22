@@ -71,8 +71,8 @@ public class IORange<T extends Comparable<T>> {
         System.out.println(rangeSet.contains(Range.point(18)));
         System.out.println();
 
-        System.out.println("Remove Point 18: ");
-        rangeSet.remove(Range.point(18));
+        System.out.println("Remove Range (15..17): ");
+        rangeSet.remove(Range.open(15,17));
         printerSet.printSet(rangeSet);
 
         System.out.println("\n##########################################################################################");

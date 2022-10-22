@@ -39,7 +39,7 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
                             break;
                         }
                         if(item.getLowBound()==range.getLowBound() && item.getHighBound()!=range.getHighBound()) {
-                            rangeSet.add(new Range<T>(range.getHighBound(), item.getHighBound(), range.isClosedH(), item.isClosedH()));
+                            rangeSet.add(new Range<T>(range.getHighBound(), item.getHighBound(), !range.isClosedH(), item.isClosedH()));
                             break;
                         }
                         if(item.getLowBound()!=range.getLowBound() && item.getHighBound()==range.getHighBound()) {
