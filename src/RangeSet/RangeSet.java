@@ -2,7 +2,6 @@ package RangeSet;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
@@ -23,11 +22,34 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
             }
         }
     }
-    public void remove(Range<T> range){
-        for (int index=0;index< rangeSet.size();index++){
-            if(rangeSet.get(index).compare(range)){
-                rangeSet.remove(index);
-                break;
+    public void remove(Range<T> range) {
+        if (contains(range)) {
+            for (Range<T> item : rangeSet) {
+                if(range.isRangeInRange(item)) {
+
+                    if(range.compare(item)) {
+                        rangeSet.remove(range);
+                        break;
+                    }
+                    rangeSet.remove(item);
+                    try {
+                        if(item.getLowBound()!=range.getLowBound() && item.getHighBound()!=range.getHighBound()) {
+                            rangeSet.add(new Range<T>(item.getLowBound(), range.getLowBound(), item.isClosedL(), !range.isClosedL()));
+                            rangeSet.add(new Range<T>(range.getHighBound(), item.getHighBound(), !range.isClosedH(), item.isClosedH()));
+                            break;
+                        }
+                        if(item.getLowBound()==range.getLowBound() && item.getHighBound()!=range.getHighBound()) {
+                            rangeSet.add(new Range<T>(range.getHighBound(), item.getHighBound(), range.isClosedH(), item.isClosedH()));
+                            break;
+                        }
+                        if(item.getLowBound()!=range.getLowBound() && item.getHighBound()==range.getHighBound()) {
+                            rangeSet.add(new Range<T>(item.getLowBound(), range.getLowBound(), item.isClosedL(), !range.isClosedL()));
+                            break;
+                        }
+                    } catch (InvalidArgsException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         }
     }
@@ -47,7 +69,7 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
                     makeSetUnic();
                     break;
                 }
-                if (range.getLowBound().compareTo(rangeSet.get(i).getHighBound()) > 0) {
+                if (range.getLowBound().compareTo(rangeSet.get(i).getHighBound()) >= 0) {
                     positionToInsert = i + 1;
                 }
             }
@@ -61,7 +83,7 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
     }
 
     @Override
-    private boolean containsPoint(T point){
+    public boolean containsPoint(T point){
         for(Range<T> item : rangeSet){
             if(item.isNumInRange(point)){
                 return true;
@@ -69,10 +91,14 @@ public class RangeSet<T extends Comparable<T>> implements RangeSetInterface<T>{
         }
         return false;
     }
+    @Override
     public boolean contains(Range<T> range){
-        int exsist = 0;
-        if(rangeSet)
-        return exsist==2;
+        for(Range<T> item : rangeSet ) {
+            if(range.isRangeInRange(item)){
+                return true;
+            }
+        }
+        return false;
     }
     public String toString(){
         StringBuilder rez = new StringBuilder();

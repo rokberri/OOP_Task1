@@ -117,7 +117,33 @@ public class Range<T extends Comparable<T>> {
         return isHigherThenLowBound(num) && this.isLowerThenHighBound(num);
     }
     public boolean isRangeInRange(Range<T> range){
-        return range.isHigherThenLowBound(this.lowBound) && range.isLowerThenHighBound(this.highBound);
+        boolean inLowBound = false;
+        boolean inHighBound = false;
+        if(range.highBound!=this.highBound && range.lowBound!=this.lowBound) {
+            return range.isHigherThenLowBound(this.lowBound) && range.isLowerThenHighBound(this.highBound);
+        }else{
+            if(range.getHighBound()==this.highBound && range.getLowBound()!=this.lowBound){
+                if(range.isClosedH == this.isClosedH){
+                    inHighBound = true;
+                }
+                inLowBound = range.isHigherThenLowBound(this.lowBound);
+            }
+            if(range.getHighBound()!=this.highBound && range.getLowBound()==this.lowBound){
+                if(range.isClosedL == this.isClosedL){
+                    inLowBound = true;
+                }
+                inHighBound =  range.isLowerThenHighBound(this.highBound);
+            }
+            if(range.getHighBound()==this.highBound && range.getLowBound()==this.lowBound){
+                if(range.isClosedL == this.isClosedL){
+                    inLowBound = true;
+                }
+                if(range.isClosedH == this.isClosedH){
+                    inHighBound = true;
+                }
+            }
+        }
+        return inLowBound && inHighBound;
     }
 
     public boolean canJoinRanges(Range<T> range2){

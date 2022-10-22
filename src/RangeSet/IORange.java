@@ -53,19 +53,31 @@ public class IORange<T extends Comparable<T>> {
         rangeSet.add(Range.closedOpen(7,9));
         printerSet.printSet(rangeSet);
         System.out.println("\n---------------------------------------------------------------");
-        System.out.println("\nContains Range [0..5]: ");
-        System.out.println(rangeSet.contains(Range.closed(0,5)));
+        rangeSet.add(Range.open(15,19));
+        printerSet.printSet(rangeSet);
+        System.out.println("\n---------------------------------------------------------------");
+        System.out.println("\nContains Range [1..5): ");
+        System.out.println(rangeSet.contains(Range.closedOpen(1,5)));
+
+
+//        System.out.println("EBANAYA HERNYA");
+//        Range<Integer> r1 = Range.closedOpen(1,5);
+//        Range<Integer> r2 = Range.closedOpen(1,5);
+//        System.out.println(r2.isRangeInRange(r1));
+
+        System.out.println("\nContains Range [17..18): ");
+        System.out.println(rangeSet.contains(Range.closedOpen(17,18)));
 
         System.out.println("\nContains Range [7..9]: ");
-        System.out.println(rangeSet.contains(Range.closedOpen(7,9)));
+        System.out.println(rangeSet.contains(Range.closed(7,9)));
         System.out.println();
 
         System.out.println("\nContains Range 18: ");
         System.out.println(rangeSet.contains(Range.point(18)));
         System.out.println();
 
-        System.out.println("Remove Range [1..5): ");
-        rangeSet.remove(Range.closedOpen(1,5));
+        System.out.println("Remove Point 18: ");
+        rangeSet.remove(Range.point(18));
         printerSet.printSet(rangeSet);
 
         System.out.println("\n##########################################################################################");

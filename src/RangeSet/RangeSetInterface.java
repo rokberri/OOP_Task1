@@ -7,6 +7,8 @@ public interface RangeSetInterface<T extends Comparable<T>>{
 
     public int getSize();
 
+    public boolean containsPoint(T point);
+
     public boolean contains(Range<T> range);
 
     public String toString();
